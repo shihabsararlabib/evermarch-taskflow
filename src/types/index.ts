@@ -9,7 +9,16 @@ export interface Label {
 export interface Assignee {
   id: string;
   name: string;
+  username?: string;
+  role?: 'admin' | 'technician';
+  specialization?: string;
   avatar?: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  branches: string[];
 }
 
 export interface Task {
@@ -24,6 +33,18 @@ export interface Task {
   order: number;
   createdAt: string;
   updatedAt: string;
+
+  // Evermarch Bangladesh Printer Repair Specifics
+  serialNumber: string;
+  printerModel: string;
+  companyName: string;
+  branchName: string;
+  receivedDate: string;
+  reportedFault?: string;
+  diagnosisNotes?: string;
+  partsReplaced?: string;
+  isViable?: boolean;
+  repairCount?: number;
 }
 
 export interface Column {
@@ -37,6 +58,7 @@ export interface Board {
   columns: Column[];
   tasks: Task[];
   assignees?: Assignee[];
+  companies?: Company[];
 }
 
 export interface BoardAction {
@@ -51,4 +73,9 @@ export interface FilterState {
   priority: Priority | 'all';
   label: string | 'all';
   assignee: string | 'all';
+  company: string | 'all';
+  branch: string | 'all';
+  nonViableOnly: boolean;
 }
+
+export type ViewMode = 'board' | 'database';

@@ -2,14 +2,22 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TaskFlow — Interactive Kanban Board",
+  title: "Evermarch Bangladesh — Printer Repair Task Flow & Reliability Manager",
   description:
-    "A modern, responsive Kanban board for managing tasks with drag-and-drop, rich text editing, filtering, dark mode, and more.",
-  keywords: ["kanban", "task management", "project management", "drag and drop"],
+    "Enterprise printer repair task flow manager with serial tracking, 5+ repair limit viability alerts, company sub-branches database, and technician workflow dispatch.",
+  keywords: [
+    "Evermarch Bangladesh",
+    "printer repair",
+    "kanban",
+    "serial tracking",
+    "technician dispatch",
+    "repair registry",
+    "Bangladesh",
+  ],
   openGraph: {
-    title: "TaskFlow — Interactive Kanban Board",
+    title: "Evermarch Bangladesh — Printer Repair Task Flow & Reliability Manager",
     description:
-      "Manage your tasks efficiently with smooth drag-and-drop, rich text editing, and a beautiful modern interface.",
+      "Enterprise printer repair task flow manager with serial tracking, 5+ repair limit viability alerts, and technician workflow dispatch.",
     type: "website",
   },
 };
@@ -25,7 +33,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
