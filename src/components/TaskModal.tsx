@@ -308,25 +308,25 @@ export default function TaskModal({
           className="relative w-full max-w-2xl bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]"
         >
           {/* Top Docket Bar */}
-          <div className="px-4 py-3 border-b border-[var(--border-color)] bg-[var(--card-subtle)] flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono text-xs font-bold text-[var(--accent-color)] tracking-wider uppercase flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-color)] animate-pulse" />
-                {isNewTask ? 'New Repair Ticket' : `Repair Ticket #${(task?.id || '').slice(0, 8)}`}
+          <div className="px-5 py-4 border-b border-[var(--border-color)] bg-[var(--card-subtle)] flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="text-sm font-bold text-[var(--text-color)] flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-color)] animate-pulse" />
+                {isNewTask ? 'New repair ticket' : `Repair ticket #${(task?.id || '').slice(0, 8)}`}
               </span>
 
               {/* Status Badge */}
               {isExceedingLimit ? (
-                <span className="px-2 py-0.5 rounded bg-red-600 text-white font-mono text-[10px] font-bold uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-full bg-red-600/10 text-red-600 dark:text-red-400 text-xs font-semibold">
                   ⚠️ 5+ Repairs (Non-Viable)
                 </span>
               ) : currentRepairCount > 1 ? (
-                <span className="px-2 py-0.5 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[10px] font-semibold uppercase">
-                  Repeat Visit #{currentRepairCount}
+                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-semibold">
+                  Repeat visit #{currentRepairCount}
                 </span>
               ) : (
-                <span className="px-2 py-0.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[10px] font-semibold uppercase">
-                  First Intake
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+                  First intake
                 </span>
               )}
             </div>
@@ -356,12 +356,12 @@ export default function TaskModal({
           </div>
 
           {/* Interactive Visual Stage Stepper */}
-          <div className="px-4 py-2.5 bg-[var(--card-bg)] border-b border-[var(--border-color)]">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-semibold">
-                Workshop Station Progress
+          <div className="px-5 py-3 bg-[var(--card-bg)] border-b border-[var(--border-color)]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-[var(--text-muted)] font-medium">
+                Workshop progress
               </span>
-              <span className="font-mono text-[10px] text-[var(--accent-color)] font-bold">
+              <span className="text-xs text-[var(--accent-color)] font-semibold">
                 {columns.find((c) => c.id === columnId)?.title || 'Intake'}
               </span>
             </div>
@@ -377,17 +377,17 @@ export default function TaskModal({
                     type="button"
                     onClick={() => setColumnId(col.id)}
                     className={cn(
-                      'py-1.5 px-1 rounded text-center transition-all cursor-pointer border text-[11px] font-mono',
+                      'py-1.5 px-2 rounded-full text-center transition-all cursor-pointer text-xs font-medium',
                       isCurrent
-                        ? 'bg-sky-500/20 border-sky-400 text-sky-300 font-bold shadow-xs'
+                        ? 'bg-sky-500/15 text-sky-600 dark:text-sky-400 font-semibold'
                         : isPast
-                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:border-emerald-500'
-                        : 'bg-[var(--card-subtle)] border-[var(--border-color)] text-[var(--text-muted)] hover:border-neutral-500'
+                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20'
+                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                     )}
                     title={`Move to ${col.title}`}
                   >
-                    <div className="flex items-center justify-center gap-1">
-                      <span className="text-[9px] opacity-70">0{idx + 1}</span>
+                    <div className="flex items-center justify-center gap-1.5">
+                      <span className="text-[10px] opacity-60 font-mono">{idx + 1}</span>
                       <span className="truncate">{col.title.split(' ')[0]}</span>
                     </div>
                   </button>
@@ -397,18 +397,18 @@ export default function TaskModal({
           </div>
 
           {/* Form Scroll Area */}
-          <div className="p-4 overflow-y-auto space-y-4 flex-1">
+          <div className="p-5 overflow-y-auto space-y-6 flex-1">
 
             {/* 1. SERIAL NUMBER INPUT WITH LIVE HISTORY DETECTION */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-color)] flex items-center gap-1.5">
-                  <span>1. Serial Number</span>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-semibold text-[var(--text-color)] flex items-center gap-1">
+                  <span>Serial number</span>
                   <span className="text-red-500">*</span>
                 </label>
                 {serialNumber && (
-                  <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                    Total Lifetime Visits: <strong className="text-[var(--text-color)]">{currentRepairCount}</strong>
+                  <span className="text-[11px] text-[var(--text-muted)] font-medium">
+                    Total lifetime visits: <strong className="text-[var(--text-color)]">{currentRepairCount}</strong>
                   </span>
                 )}
               </div>
@@ -419,7 +419,7 @@ export default function TaskModal({
                   value={serialNumber}
                   onChange={(e) => setSerialNumber(e.target.value.toUpperCase())}
                   placeholder="e.g. EB-2026-0881, HP-SN-99824"
-                  className="w-full px-3 py-2 text-sm font-mono font-bold uppercase bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md focus:border-[var(--accent-color)] focus:outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 text-sm font-mono uppercase bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none transition-colors"
                   required
                   autoFocus={isNewTask}
                 />
@@ -455,17 +455,17 @@ export default function TaskModal({
 
               {/* Critical Decommission Alert if 5+ repairs */}
               {isExceedingLimit && (
-                <div className="mt-2 p-3 rounded-md border border-red-500/80 bg-red-950/50 text-red-200 text-xs">
-                  <div className="flex items-center justify-between font-mono font-bold text-red-400">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                      CRITICAL DECOMMISSION ADVISORY (5+ REPAIRS)
+                <div className="mt-3 p-4 rounded-md border-l-4 border-red-500 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 text-sm">
+                  <div className="flex items-center justify-between font-semibold text-red-700 dark:text-red-400">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                      Decommission advisory
                     </span>
-                    <span className="px-1.5 py-0.2 rounded bg-red-600 text-white text-[10px]">
-                      {currentRepairCount}TH INTAKE
+                    <span className="px-2 py-0.5 rounded bg-red-600/10 text-red-700 dark:text-red-400 text-xs">
+                      {currentRepairCount}th intake
                     </span>
                   </div>
-                  <p className="text-[11px] text-red-300 mt-1 leading-relaxed">
+                  <p className="text-xs text-red-800 dark:text-red-300 mt-2 leading-relaxed">
                     This printer serial number has been brought for repair {currentRepairCount} times. Standard policy dictates replacing or decommissioning this equipment.
                   </p>
                   {isAdmin() && (
@@ -486,25 +486,25 @@ export default function TaskModal({
             </div>
 
             {/* 2. CLIENT ACCOUNT & BRANCH */}
-            <div className="space-y-1.5">
-              <label className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-color)] flex items-center gap-1.5">
-                <span>2. Client Account & Branch</span>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-[var(--text-color)] flex items-center gap-1">
+                <span>Client account & branch</span>
                 <span className="text-red-500">*</span>
               </label>
 
               {/* Quick Client Chips */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Quick Select:</span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[11px] text-[var(--text-muted)] font-medium">Quick select:</span>
                 {companies.slice(0, 4).map((c) => (
                   <button
                     key={c.id}
                     type="button"
                     onClick={() => handleSelectTopClient(c.name)}
                     className={cn(
-                      'px-2 py-0.5 rounded text-[11px] font-mono transition-colors border cursor-pointer',
+                      'px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer',
                       companyName === c.name
-                        ? 'bg-[var(--accent-color)] text-black font-bold border-[var(--accent-color)]'
-                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] border-[var(--border-color)] hover:border-neutral-500'
+                        ? 'bg-[var(--accent-color)] text-white'
+                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                     )}
                   >
                     {c.name.split(' ')[0]}
@@ -512,28 +512,28 @@ export default function TaskModal({
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                 {/* Client Company Dropdown */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Client Organization</span>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-[var(--text-muted)] font-medium">Client organization</span>
                     <button
                       type="button"
                       onClick={() => setIsAddingCustomCompany(!isAddingCustomCompany)}
-                      className="text-[10px] font-mono text-sky-400 hover:underline cursor-pointer"
+                      className="text-[11px] text-sky-500 hover:text-sky-600 cursor-pointer"
                     >
-                      {isAddingCustomCompany ? '[Cancel]' : '[+ New Client]'}
+                      {isAddingCustomCompany ? 'Cancel' : '+ New Client'}
                     </button>
                   </div>
 
                   {isAddingCustomCompany ? (
-                    <div className="flex gap-1">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         value={customCompanyName}
                         onChange={(e) => setCustomCompanyName(e.target.value)}
                         placeholder="Company name..."
-                        className="flex-1 px-2.5 py-1.5 text-xs bg-[var(--card-subtle)] border border-[var(--border-color)] rounded"
+                        className="flex-1 px-3 py-2 text-sm bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none"
                       />
                       <button
                         type="button"
@@ -564,15 +564,15 @@ export default function TaskModal({
                 </div>
 
                 {/* Sub-Branch Dropdown */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Sub-Branch / Location</span>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-[var(--text-muted)] font-medium">Sub-branch / location</span>
                     <button
                       type="button"
                       onClick={() => setIsAddingCustomBranch(!isAddingCustomBranch)}
-                      className="text-[10px] font-mono text-sky-400 hover:underline cursor-pointer"
+                      className="text-[11px] text-sky-500 hover:text-sky-600 cursor-pointer"
                     >
-                      {isAddingCustomBranch ? '[Cancel]' : '[+ Add Branch]'}
+                      {isAddingCustomBranch ? 'Cancel' : '+ Add Branch'}
                     </button>
                   </div>
 
@@ -615,25 +615,25 @@ export default function TaskModal({
             </div>
 
             {/* 3. PRINTER BRAND & MODEL */}
-            <div className="space-y-1.5">
-              <label className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-color)] flex items-center gap-1.5">
-                <span>3. Printer Model</span>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-[var(--text-color)] flex items-center gap-1">
+                <span>Printer model</span>
                 <span className="text-red-500">*</span>
               </label>
 
               {/* Quick Brand Selector */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Brand:</span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[11px] text-[var(--text-muted)] font-medium">Brand:</span>
                 {COMMON_BRANDS.map((brand) => (
                   <button
                     key={brand}
                     type="button"
                     onClick={() => handleSelectBrand(brand)}
                     className={cn(
-                      'px-2 py-0.5 rounded text-[11px] font-mono transition-colors border cursor-pointer',
+                      'px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer',
                       printerModel.toLowerCase().includes(brand.toLowerCase())
-                        ? 'bg-sky-500/20 text-sky-300 font-bold border-sky-400'
-                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] border-[var(--border-color)] hover:border-neutral-500'
+                        ? 'bg-sky-500/20 text-sky-600 dark:text-sky-400 font-semibold'
+                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                     )}
                   >
                     {brand}
@@ -646,30 +646,30 @@ export default function TaskModal({
                 value={printerModel}
                 onChange={(e) => setPrinterModel(e.target.value)}
                 placeholder="e.g. LaserJet Pro M404dn, EcoTank L3250, imageRUNNER 2520"
-                className="w-full px-3 py-2 text-xs font-mono bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:outline-none"
+                className="w-full px-3.5 py-2.5 text-sm bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none"
                 required
               />
             </div>
 
             {/* 4. REPORTED FAULT & ONE-CLICK COMMON ISSUE CHIPS */}
-            <div className="space-y-1.5">
-              <label className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-color)] flex items-center gap-1.5">
-                <span>4. Reported Problem / Fault</span>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-[var(--text-color)] flex items-center gap-1">
+                <span>Reported problem / fault</span>
                 <span className="text-red-500">*</span>
               </label>
 
               {/* Common Issue Quick Chips */}
-              <div className="flex items-center gap-1.5 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap">
                 {COMMON_ISSUES.map((issue) => (
                   <button
                     key={issue}
                     type="button"
                     onClick={() => handleSelectIssue(issue)}
                     className={cn(
-                      'px-2 py-1 rounded text-[11px] font-mono transition-colors border cursor-pointer',
+                      'px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer',
                       reportedFault.includes(issue)
-                        ? 'bg-amber-500/20 text-amber-300 font-semibold border-amber-400'
-                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] border-[var(--border-color)] hover:border-neutral-500'
+                        ? 'bg-amber-500/20 text-amber-600 dark:text-amber-400 font-semibold'
+                        : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                     )}
                   >
                     + {issue}
@@ -682,28 +682,28 @@ export default function TaskModal({
                 onChange={(e) => setReportedFault(e.target.value)}
                 rows={2}
                 placeholder="Describe client symptoms (e.g. Paper feed jams continuously from tray 2, error 50.4 on display)..."
-                className="w-full px-3 py-2 text-xs bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:outline-none leading-relaxed"
+                className="w-full px-3.5 py-2.5 text-sm bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none leading-relaxed"
                 required
               />
             </div>
 
             {/* EXPANDABLE SECTION: BENCH REPAIR LOG & HARDWARE SPECS */}
-            <div className="pt-2 border-t border-[var(--border-color)]">
+            <div className="pt-4 border-t border-[var(--border-color)]/50">
               <button
                 type="button"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="w-full py-2 px-3 rounded-md bg-[var(--card-subtle)] border border-[var(--border-color)] hover:border-neutral-600 flex items-center justify-between text-xs font-mono text-[var(--text-color)] transition-colors cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-lg bg-[var(--card-subtle)] border border-[var(--border-color)] hover:border-neutral-500 flex items-center justify-between text-sm font-medium text-[var(--text-color)] transition-colors cursor-pointer"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <span className="text-[var(--accent-color)] font-bold">🛠️</span>
-                  <span className="font-bold">Bench Work Log & Advanced Diagnostic Notes</span>
+                  <span className="font-semibold">Bench Work Log & Advanced Diagnostic Notes</span>
                   {!showAdvanced && (
-                    <span className="text-[10px] text-[var(--text-muted)] font-normal">
+                    <span className="text-xs text-[var(--text-muted)] font-normal hidden sm:inline">
                       (Parts replaced, tech notes, SLA priority)
                     </span>
                   )}
                 </div>
-                <span className="text-xs font-bold text-[var(--text-muted)]">
+                <span className="text-xs font-semibold text-[var(--text-muted)]">
                   {showAdvanced ? '▲ Hide' : '▼ Expand'}
                 </span>
               </button>
@@ -717,13 +717,13 @@ export default function TaskModal({
                     className="space-y-3.5 pt-3 overflow-hidden"
                   >
                     {/* Assigned Technician Station */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                           Assigned Tech Station
                         </label>
                         {!isAdmin() && (
-                          <span className="font-mono text-[9px] text-amber-400 font-bold uppercase">
+                          <span className="text-[10px] text-amber-500 font-semibold uppercase">
                             [Locked — Supervisor Dispatch]
                           </span>
                         )}
@@ -760,20 +760,20 @@ export default function TaskModal({
                           })}
                         </div>
                       ) : (
-                        <div className="p-2 rounded border border-sky-500/30 bg-sky-500/10 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                        <div className="p-3 rounded-md border border-sky-500/20 bg-sky-500/10 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
                             <div
-                              className="w-6 h-6 rounded flex items-center justify-center font-mono text-[10px] font-bold text-white shrink-0"
+                              className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white shrink-0"
                               style={{ backgroundColor: getAvatarColor(assignee?.name || currentUser?.name || 'T') }}
                             >
                               {getInitials(assignee?.name || currentUser?.name || 'T')}
                             </div>
                             <div>
-                              <p className="text-xs font-semibold text-white">{assignee?.name || currentUser?.name}</p>
-                              <p className="text-[9px] font-mono text-slate-400">Assigned Station Bay</p>
+                              <p className="text-sm font-semibold text-[var(--text-color)]">{assignee?.name || currentUser?.name}</p>
+                              <p className="text-[11px] text-[var(--text-muted)]">Assigned Station Bay</p>
                             </div>
                           </div>
-                          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold uppercase">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-semibold uppercase">
                             Locked
                           </span>
                         </div>
@@ -781,12 +781,12 @@ export default function TaskModal({
                     </div>
 
                     {/* Priority & Target Date */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                           SLA Priority
                         </label>
-                        <div className="flex gap-1">
+                        <div className="flex gap-2">
                           {(['low', 'medium', 'high'] as Priority[]).map((p) => {
                             const isSelected = priority === p;
                             const labelsMap: Record<Priority, string> = {
@@ -800,10 +800,10 @@ export default function TaskModal({
                                 type="button"
                                 onClick={() => setPriority(p)}
                                 className={cn(
-                                  'flex-1 py-1 rounded text-xs font-mono uppercase transition-colors border cursor-pointer',
+                                  'flex-1 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer',
                                   isSelected
-                                    ? 'bg-[var(--accent-color)] text-black font-bold border-[var(--accent-color)]'
-                                    : 'border-[var(--border-color)] bg-[var(--card-subtle)] text-[var(--text-muted)] hover:border-neutral-500'
+                                    ? 'bg-[var(--accent-color)] text-white'
+                                    : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                                 )}
                               >
                                 {labelsMap[p]}
@@ -813,22 +813,22 @@ export default function TaskModal({
                         </div>
                       </div>
 
-                      <div>
-                        <label className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                           Target Dispatch Date
                         </label>
                         <input
                           type="date"
                           value={dueDate}
                           onChange={(e) => setDueDate(e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-xs font-mono bg-[var(--card-subtle)] border border-[var(--border-color)] rounded text-[var(--text-color)] focus:outline-none"
+                          className="w-full px-3 py-1.5 text-sm font-mono bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Replaced Components */}
-                    <div>
-                      <label className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                    <div className="space-y-1.5">
+                      <label className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                         Replaced Components & Assemblies
                       </label>
                       <input
@@ -836,13 +836,13 @@ export default function TaskModal({
                         value={partsReplaced}
                         onChange={(e) => setPartsReplaced(e.target.value)}
                         placeholder="e.g. Teflon sleeve, pickup roller, DC controller board"
-                        className="w-full px-3 py-2 text-xs font-mono bg-[var(--card-subtle)] border border-[var(--border-color)] rounded text-[var(--text-color)] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 text-sm bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none"
                       />
                     </div>
 
                     {/* Bench Diagnostic Notes */}
-                    <div>
-                      <label className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                    <div className="space-y-1.5">
+                      <label className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                         Technician Bench Work Log & Notes
                       </label>
                       <textarea
@@ -850,16 +850,16 @@ export default function TaskModal({
                         onChange={(e) => setDiagnosisNotes(e.target.value)}
                         rows={3}
                         placeholder="Log repair steps taken, sensor test results, parts dismantled and cleaned..."
-                        className="w-full px-3 py-2 text-xs font-mono bg-[var(--card-subtle)] border border-[var(--border-color)] rounded text-[var(--text-color)] focus:outline-none leading-relaxed"
+                        className="w-full px-3.5 py-2.5 text-sm bg-[var(--card-subtle)] border border-[var(--border-color)] rounded-md text-[var(--text-color)] focus:border-[var(--accent-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:outline-none leading-relaxed"
                       />
                     </div>
 
                     {/* Classification Labels */}
-                    <div>
-                      <label className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+                    <div className="space-y-2">
+                      <label className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wide">
                         Hardware Classification Tags
                       </label>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-2">
                         {PRESET_LABELS.map((lbl) => {
                           const isSelected = labels.some((l) => l.id === lbl.id);
                           return (
@@ -868,10 +868,10 @@ export default function TaskModal({
                               type="button"
                               onClick={() => toggleLabel(lbl)}
                               className={cn(
-                                'px-2 py-0.5 rounded text-[10px] font-mono uppercase transition-colors border cursor-pointer',
+                                'px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer',
                                 isSelected
-                                  ? 'bg-sky-500/20 text-sky-300 border-sky-400 font-bold'
-                                  : 'border-[var(--border-color)] bg-[var(--card-subtle)] text-[var(--text-muted)] hover:border-neutral-500'
+                                  ? 'bg-sky-500/20 text-sky-600 dark:text-sky-400 font-semibold'
+                                  : 'bg-[var(--card-subtle)] text-[var(--text-muted)] hover:bg-[var(--border-color)]'
                               )}
                             >
                               {lbl.name}
@@ -888,7 +888,7 @@ export default function TaskModal({
           </div>
 
           {/* Action Footer */}
-          <div className="px-4 py-3 border-t border-[var(--border-color)] bg-[var(--card-subtle)] flex items-center justify-between gap-3 shrink-0">
+          <div className="px-5 py-4 border-t border-[var(--border-color)]/50 bg-[var(--card-subtle)] flex flex-wrap items-center justify-between gap-4 shrink-0">
             <div>
               {!isNewTask && task && isAdmin() && (
                 <button
@@ -899,23 +899,23 @@ export default function TaskModal({
                       onClose();
                     }
                   }}
-                  className="font-mono text-xs uppercase tracking-wider text-red-500 hover:underline cursor-pointer"
+                  className="text-sm font-semibold text-red-500 hover:text-red-600 cursor-pointer"
                 >
-                  [Delete Ticket]
+                  Delete Ticket
                 </button>
               )}
               {isNewTask && (
-                <span className="hidden sm:inline font-mono text-[10px] text-[var(--text-muted)]">
-                  Tip: Press <kbd className="px-1 py-0.5 rounded bg-black border border-neutral-700 text-neutral-300">Ctrl + Enter</kbd> to save
+                <span className="hidden sm:inline text-xs text-[var(--text-muted)]">
+                  Tip: Press <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/40 border border-[var(--border-color)] text-[var(--text-color)] font-mono mx-1">Ctrl + Enter</kbd> to save
                 </span>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3.5 py-1.5 rounded-md font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--text-color)] border border-[var(--border-color)] bg-[var(--card-bg)] transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-md text-sm font-semibold text-[var(--text-color)] hover:bg-[var(--border-color)] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -924,9 +924,9 @@ export default function TaskModal({
                 type="button"
                 onClick={handleSave}
                 disabled={!serialNumber.trim()}
-                className="px-5 py-2 rounded-md font-mono text-xs font-bold uppercase tracking-wider bg-[#026aa7] hover:bg-[#025687] dark:bg-sky-500 dark:hover:bg-sky-400 text-white dark:text-black shadow-md transition-all flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                className="px-5 py-2 rounded-md text-sm font-bold bg-[var(--accent-color)] hover:brightness-110 text-white shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
-                <span>{isNewTask ? '✓ Create Ticket' : '💾 Save Ticket Changes'}</span>
+                <span>{isNewTask ? 'Create Ticket' : 'Save Changes'}</span>
               </button>
             </div>
           </div>

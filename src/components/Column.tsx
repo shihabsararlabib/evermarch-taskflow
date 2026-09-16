@@ -61,17 +61,6 @@ export default function KanbanColumn({
         </div>
 
         <div className="flex items-center gap-1">
-          <button
-            onClick={() => onAddTask(column.id)}
-            className="px-2 py-0.5 rounded border border-[#026aa7]/30 dark:border-sky-500/30 bg-[#026aa7]/10 dark:bg-sky-500/15 hover:bg-[#026aa7] hover:text-white dark:hover:bg-sky-500 dark:hover:text-black flex items-center gap-1 text-[10px] font-mono font-bold text-[#026aa7] dark:text-sky-400 uppercase tracking-wider transition-all cursor-pointer"
-            title={`Create new repair ticket in ${column.title}`}
-          >
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-            <span>+ Ticket</span>
-          </button>
-
           {isAdmin() &&
             column.id !== 'intake' &&
             column.id !== 'queue' &&
@@ -125,35 +114,15 @@ export default function KanbanColumn({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
             </div>
-            <p className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-2">
+            <p className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider">
               {filter.search || filter.priority !== 'all' || filter.label !== 'all'
                 ? 'No matching tickets'
                 : 'No tickets in stage'}
             </p>
-            <button
-              onClick={() => onAddTask(column.id)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-md border border-[#026aa7]/40 dark:border-sky-500/40 bg-[#026aa7]/10 dark:bg-sky-500/15 hover:bg-[#026aa7] hover:text-white dark:hover:bg-sky-500 dark:hover:text-black text-[#026aa7] dark:text-sky-400 transition-colors cursor-pointer"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-              <span>+ Create First Ticket</span>
-            </button>
           </motion.div>
         )}
 
-        {/* Bottom Column "+ Add Ticket" Action (Trello / Jira style) */}
-        {tasks.length > 0 && (
-          <button
-            onClick={() => onAddTask(column.id)}
-            className="w-full mt-1.5 py-2 px-3 rounded-md border border-dashed border-[var(--border-color)] hover:border-[#026aa7] dark:hover:border-sky-500 bg-[var(--card-bg)]/60 hover:bg-[var(--card-bg)] flex items-center justify-center gap-1.5 text-xs font-mono font-semibold text-[var(--text-muted)] hover:text-[#026aa7] dark:hover:text-sky-400 transition-all cursor-pointer group"
-          >
-            <svg className="w-3.5 h-3.5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-            <span>+ Add Ticket to {column.title.split(' ')[0]}</span>
-          </button>
-        )}
+
       </div>
     </motion.div>
   );

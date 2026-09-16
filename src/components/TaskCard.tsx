@@ -92,82 +92,79 @@ export default function TaskCard({ task, onClick, onDelete, isDragging }: TaskCa
         }
       }}
     >
-      {/* Top Asset Plate: Serial Stamp & Priority */}
+      {/* Top Asset Plate: Priority & Serial */}
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-1.5 min-w-0">
+          {/* Priority SLA Tag */}
+          <span
+            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0"
+            style={{
+              backgroundColor: `${priorityConfig.color}15`,
+              color: priorityConfig.color,
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: priorityConfig.color }} />
+            {priorityConfig.label}
+          </span>
           {task.serialNumber ? (
-            <span className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold px-2 py-0.5 rounded border border-[var(--border-color)] bg-[var(--card-subtle)] text-[var(--text-color)] truncate">
-              <span className="text-[var(--text-muted)] font-normal text-[10px]">SN:</span> {task.serialNumber}
+            <span className="font-mono text-[11px] text-[var(--text-muted)] truncate opacity-80">
+              {task.serialNumber}
             </span>
           ) : (
-            <span className="text-[10px] font-mono text-[var(--text-muted)]">NO SERIAL</span>
+            <span className="text-[11px] text-[var(--text-muted)] opacity-60">No Serial</span>
           )}
 
           {/* Repeat Visit Badge */}
           {task.repairCount && task.repairCount > 1 && !isNonViable && (
-            <span className="px-1.5 py-0.2 rounded font-mono text-[9px] font-bold uppercase bg-amber-500/15 text-amber-300 border border-amber-500/40">
-              #{task.repairCount}
+            <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/15 text-amber-500">
+              Visit #{task.repairCount}
             </span>
           )}
         </div>
-
-        {/* Priority SLA Tag */}
-        <span
-          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium border shrink-0"
-          style={{
-            backgroundColor: `${priorityConfig.color}15`,
-            color: priorityConfig.color,
-            borderColor: `${priorityConfig.color}35`,
-          }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: priorityConfig.color }} />
-          {priorityConfig.label.toUpperCase()}
-        </span>
       </div>
 
       {/* CRITICAL 5+ REPAIR EQUIPMENT DECOMMISSIONING NOTICE */}
       {isNonViable && (
-        <div className="mb-2 p-2 rounded border border-red-300 dark:border-red-900/80 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 text-xs">
-          <div className="flex items-center justify-between font-mono text-[10px] font-bold tracking-tight text-red-700 dark:text-red-400">
-            <span>DECOMMISSION ADVISORY</span>
-            <span className="px-1.5 py-0.2 rounded bg-red-600 text-white text-[9px] font-bold">
-              {task.repairCount || 5}TH REPAIR
+        <div className="mb-3 p-2.5 rounded-md bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 text-xs border-l-4 border-red-500">
+          <div className="flex items-center justify-between font-semibold tracking-tight text-red-700 dark:text-red-400">
+            <span>Decommission Advisory</span>
+            <span className="px-1.5 py-0.5 rounded bg-red-600/10 text-red-600 dark:text-red-400 text-[10px] font-bold">
+              {task.repairCount || 5}th Repair
             </span>
           </div>
-          <p className="text-[11px] text-red-800 dark:text-red-300 mt-0.5 leading-snug">
+          <p className="text-[11px] text-red-800 dark:text-red-300 mt-1 leading-snug">
             Exceeds 5-repair threshold. Equipment deemed economically non-viable.
           </p>
         </div>
       )}
 
       {/* Equipment Model & Client Organization */}
-      <div className="mb-1.5">
-        <h3 className="text-xs font-bold text-[var(--text-color)] font-sans truncate leading-tight">
+      <div className="mb-2">
+        <h3 className="text-[13px] font-semibold text-[var(--text-color)] font-sans truncate leading-tight">
           {task.printerModel || 'Printer Unit'}
         </h3>
         {(task.companyName || task.branchName) && (
-          <p className="text-[11px] text-[var(--text-muted)] font-medium truncate mt-0.5">
-            {task.companyName} {task.branchName ? `/ ${task.branchName}` : ''}
+          <p className="text-[12px] text-[var(--text-muted)] font-medium truncate mt-1">
+            {task.companyName} {task.branchName ? `· ${task.branchName}` : ''}
           </p>
         )}
       </div>
 
       {/* Reported Technical Fault */}
-      <p className="text-xs text-[var(--text-color)]/80 line-clamp-2 leading-relaxed mb-2.5">
+      <p className="text-[12px] text-[var(--text-color)]/80 line-clamp-2 leading-relaxed mb-3">
         {task.reportedFault || task.title}
       </p>
 
       {/* Diagnostic Labels */}
       {task.labels && task.labels.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-2.5">
+        <div className="flex flex-wrap gap-1.5 mb-3">
           {task.labels.map((label) => (
             <span
               key={label.id}
-              className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium"
+              className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium"
               style={{
                 backgroundColor: `${label.color}15`,
                 color: label.color,
-                border: `1px solid ${label.color}30`,
               }}
             >
               {label.name}
@@ -177,23 +174,23 @@ export default function TaskCard({ task, onClick, onDelete, isDragging }: TaskCa
       )}
 
       {/* Docket Footer: Technical Metadata, Technician, & 1-Click Advance */}
-      <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] text-[11px] font-mono gap-1">
+      <div className="flex items-center justify-between pt-2.5 border-t border-[var(--border-color)]/50 gap-2">
         <div className="flex items-center gap-1.5 min-w-0">
           {/* Assigned Technician */}
           {task.assignee ? (
-            <div className="flex items-center gap-1" title={`Technician: ${task.assignee.name}`}>
+            <div className="flex items-center gap-1.5" title={`Technician: ${task.assignee.name}`}>
               <div
-                className="w-4 h-4 rounded flex items-center justify-center text-[9px] font-mono font-bold text-white shrink-0"
+                className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-semibold text-white shrink-0"
                 style={{ backgroundColor: getAvatarColor(task.assignee.name) }}
               >
                 {getInitials(task.assignee.name)}
               </div>
-              <span className="text-[var(--text-muted)] text-[10px] truncate max-w-[70px]">
+              <span className="text-[var(--text-muted)] text-[11px] font-medium truncate max-w-[80px]">
                 {task.assignee.name.split(' ')[0]}
               </span>
             </div>
           ) : (
-            <span className="text-[10px] text-[var(--text-muted)]">UNASSIGNED</span>
+            <span className="text-[11px] text-[var(--text-muted)] font-medium italic">Unassigned</span>
           )}
         </div>
 
@@ -202,15 +199,15 @@ export default function TaskCard({ task, onClick, onDelete, isDragging }: TaskCa
           <button
             type="button"
             onClick={handleAdvanceStage}
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-sky-500/10 hover:bg-sky-500/25 text-sky-400 border border-sky-500/30 hover:border-sky-400 transition-colors cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium bg-sky-500/10 hover:bg-sky-500/20 text-sky-500 transition-colors cursor-pointer shrink-0"
             title={`Quick advance ticket to ${nextColumn.title}`}
           >
             <span>{nextColumn.title.split(' ')[0]}</span>
             <span>➔</span>
           </button>
         ) : (
-          <span className="text-[10px] text-emerald-400 font-mono font-semibold">
-            ✓ COMPLETED
+          <span className="text-[11px] text-emerald-500 font-medium">
+            ✓ Completed
           </span>
         )}
       </div>

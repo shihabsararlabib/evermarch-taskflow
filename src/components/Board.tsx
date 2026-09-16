@@ -20,6 +20,7 @@ import { Task, FilterState, ViewMode } from '@/types';
 import { useKanbanBoard } from '@/hooks/useKanbanBoard';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import Header from './Header';
+import Sidebar from './Sidebar';
 import KanbanColumn from './Column';
 import TaskCard from './TaskCard';
 import TaskModal from './TaskModal';
@@ -60,6 +61,7 @@ export default function Board() {
   const [newTaskColumnId, setNewTaskColumnId] = useState('intake');
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [filter, setFilter] = useState<FilterState>({
     search: '',
     priority: 'all',
@@ -213,24 +215,32 @@ export default function Board() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Top Header */}
-      <Header
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-        onUndo={undo}
-        onRedo={redo}
-        canUndo={canUndo}
-        canRedo={canRedo}
+    <div className="flex min-h-screen relative overflow-hidden bg-[var(--bg-color)]">
+      {/* Sidebar Navigation */}
+      <Sidebar
         onExport={exportBoard}
         onImport={importBoard}
-        onAddColumn={addColumn}
-        totalTasks={stats.total}
-        nonViableCount={nonViableCount}
         onOpenLogin={() => setIsLoginModalOpen(true)}
         onOpenAdminPanel={isAdmin() ? () => setIsAdminPanelOpen(true) : undefined}
-        onNewTask={() => handleAddTask('intake')}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative">
+        {/* Top Header */}
+        <Header
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          onUndo={undo}
+          onRedo={redo}
+          canUndo={canUndo}
+          canRedo={canRedo}
+          totalTasks={stats.total}
+          nonViableCount={nonViableCount}
+          onNewTask={() => handleAddTask('intake')}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        />
 
       {/* Main Content Area: Kanban Board vs Database Registry */}
       {viewMode === 'board' ? (
@@ -365,25 +375,7 @@ export default function Board() {
         </div>
       )}
 
-      {/* Floating Action Button (FAB) - Always visible for 1-click ticket creation */}
-      <motion.button
-        onClick={() => handleAddTask('intake')}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#026aa7] hover:bg-[#025687] dark:bg-sky-500 dark:hover:bg-sky-400 text-white dark:text-black font-mono font-bold text-xs uppercase tracking-wider shadow-xl border-2 border-white/20 dark:border-black/20 cursor-pointer backdrop-blur-xs transition-shadow hover:shadow-2xl"
-        title="Create a new printer repair ticket (Shortcut: N)"
-        id="fab-new-ticket-btn"
-      >
-        <div className="w-5 h-5 rounded-full bg-white/20 dark:bg-black/20 flex items-center justify-center">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-        <span>+ New Ticket</span>
-        <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/15 text-[10px] font-mono ml-0.5">
-          N
-        </kbd>
-      </motion.button>
+
 
       {/* Task / Repair Modal */}
       <TaskModal
@@ -403,6 +395,7 @@ export default function Board() {
       {isAdmin() && (
         <AdminPanelModal isOpen={isAdminPanelOpen} onClose={() => setIsAdminPanelOpen(false)} />
       )}
+      </div>
     </div>
   );
 }

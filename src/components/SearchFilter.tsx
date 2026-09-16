@@ -164,20 +164,7 @@ export default function SearchFilter({ filter, onFilterChange, taskCount, onNewT
 
         {/* Match Count, Add Ticket & Reset */}
         <div className="flex items-center gap-2.5 ml-auto">
-          {onNewTask && (
-            <button
-              type="button"
-              onClick={onNewTask}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#026aa7] hover:bg-[#025687] dark:bg-sky-500 dark:hover:bg-sky-400 text-white dark:text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs cursor-pointer active:scale-98 ring-2 ring-[#026aa7]/20 dark:ring-sky-500/30"
-              title="Create new printer repair ticket (Shortcut: N)"
-              id="filter-bar-add-ticket-btn"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-              <span>+ New Ticket</span>
-            </button>
-          )}
+
 
           <span className="font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-wider hidden sm:inline">
             {taskCount.toString().padStart(2, '0')} TICKETS ACTIVE

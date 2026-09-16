@@ -20,44 +20,111 @@ export const PRESET_LABELS: Label[] = [
 ];
 
 export const PRESET_ASSIGNEES: Assignee[] = [
-  { id: 'user-admin', name: 'Admin / Workshop Supervisor', username: 'admin', role: 'admin', specialization: 'All Operations & Approval' },
-  { id: 'user-1', name: 'Tarek Rahman', username: 'tarek', role: 'technician', specialization: 'Laser Printers & Fuser Units' },
-  { id: 'user-2', name: 'Hasan Mahmud', username: 'hasan', role: 'technician', specialization: 'Logic Board & SMPS Power Circuits' },
-  { id: 'user-3', name: 'Salman Farsi', username: 'salman', role: 'technician', specialization: 'Ink Tank & Color MFP Mechanics' },
-  { id: 'user-4', name: 'Fahim Chowdhury', username: 'fahim', role: 'technician', specialization: 'Network, Scanner & Firmware' },
+  {
+    "id": "user-admin",
+    "name": "Admin / Workshop Supervisor",
+    "username": "admin",
+    "role": "admin",
+    "specialization": "All Operations & Approval"
+  },
+  {
+    "id": "user-1",
+    "name": "Rasel Pran",
+    "username": "rasel",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-2",
+    "name": "Symon Rasel",
+    "username": "symon",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-3",
+    "name": "Junaid",
+    "username": "junaid",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-4",
+    "name": "Rashed",
+    "username": "rashed",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-5",
+    "name": "Mukti",
+    "username": "mukti",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-6",
+    "name": "Didar",
+    "username": "didar",
+    "role": "technician",
+    "specialization": "General Technician"
+  },
+  {
+    "id": "user-7",
+    "name": "Rubel",
+    "username": "rubel",
+    "role": "technician",
+    "specialization": "General Technician"
+  }
 ];
 
 export const PRESET_COMPANIES: Company[] = [
   {
-    id: 'comp-1',
-    name: 'BRAC Bank PLC',
-    branches: ['Gulshan Branch', 'Motijheel Corporate', 'Dhanmondi Branch', 'Agrabad Chittagong', 'Uttara Sector 3 Branch', 'Mirpur 10 Branch'],
-  },
-  {
-    id: 'comp-2',
-    name: 'Grameenphone Ltd.',
-    branches: ['GPHouse Bashundhara HQ', 'Banani Customer Center', 'Sylhet Regional Hub', 'Khulna Operational Center', 'Chittagong Circle'],
-  },
-  {
-    id: 'comp-3',
-    name: 'Square Pharmaceuticals Ltd.',
-    branches: ['Dhaka Corporate Office', 'Pabna Manufacturing Plant', 'Kaliakair Depot', 'Gazipur Unit'],
-  },
-  {
-    id: 'comp-4',
-    name: 'Beximco Communications',
-    branches: ['Beximco Industrial Park', 'Tejgaon Engineering Hub', 'Dhanmondi Media Wing'],
-  },
-  {
-    id: 'comp-5',
-    name: 'Standard Chartered Bangladesh',
-    branches: ['Principal Branch Motijheel', 'Gulshan North Branch', 'Dhanmondi Road 2 Branch', 'Chittagong Main Branch'],
-  },
-  {
-    id: 'comp-6',
-    name: 'The City Bank Limited',
-    branches: ['City Bank Center Gulshan 2', 'Motijheel Branch', 'Banani Branch', 'Kawran Bazar Branch'],
-  },
+    "id": "comp-1",
+    "name": "Pran RFL",
+    "branches": [
+      "Badda",
+      "Keranigonj Depot",
+      "PIP, Bread",
+      "Bagher Bazar",
+      "Patira",
+      "Bagher Para",
+      "Pran Center, Badda",
+      "Matiara, Comilla",
+      "CNF, CTG",
+      "Kasem Jute Mills, CTG",
+      "City Gate, CTG",
+      "Chokoria, CTG",
+      "Muradpur, CTG",
+      "Sonargon Depot",
+      "DIP",
+      "Gawsia",
+      "Charka",
+      "Azhar Complx",
+      "Murapara",
+      "Malibagh, Bondor, N.Gonj",
+      "PIP",
+      "HIP",
+      "Rongpur",
+      "Fuji Tower",
+      "Baghdi",
+      "KEZ",
+      "RIP",
+      "PIP, Factory",
+      "Comilla",
+      "MCL",
+      "CTL",
+      "CTG, Aturar Depo",
+      "Borishal",
+      "Sitakunda",
+      "Main Branch",
+      "Shanarpar Depot",
+      "Khanchpur Depot",
+      "Matuail, Demra",
+      "Borabo, N.Gonj",
+      "Baunia"
+    ]
+  }
 ];
 
 export const PRIORITY_CONFIG = {

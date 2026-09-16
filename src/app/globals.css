@@ -3,48 +3,52 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 
-  --color-brand-primary: #026aa7;
-  --color-brand-accent: #0284c7;
-  --color-brand-danger: #991b1b;
-  --color-brand-warning: #b45309;
-  --color-brand-success: #15803d;
+  --color-brand-primary: #00AEEF;
+  --color-brand-accent: #008fca;
+  --color-brand-danger: #EC008C;
+  --color-brand-warning: #eab308;
+  --color-brand-success: #10b981;
 }
 
 :root {
-  --bg-color: #f4f5f7;
+  /* CMYK Light (Paper & Ink) */
+  --bg-color: #f8f9fb;
   --card-bg: #ffffff;
-  --card-subtle: #ebedf2;
-  --border-color: #d6dae1;
-  --border-subtle: #e5e8ee;
-  --card-border: #d6dae1;
-  --text-color: #0f141c;
-  --text-muted: #536074;
-  --accent-color: #026aa7;
-  --accent-light: #e0f2fe;
-  --danger-color: #991b1b;
-  --danger-light: #fee2e2;
-  --warning-color: #b45309;
-  --warning-light: #fef3c7;
+  --card-subtle: #f1f3f5;
+  --border-color: #e5e7eb;
+  --border-subtle: #f3f4f6;
+  --card-border: #e5e7eb;
+  --text-color: #231F20; /* Key Black */
+  --text-muted: #6b7280;
+  
+  --accent-color: #00AEEF; /* Cyan */
+  --accent-light: rgba(0, 174, 239, 0.1);
+  --danger-color: #EC008C; /* Magenta */
+  --danger-light: rgba(236, 0, 140, 0.1);
+  --warning-color: #eab308; /* Darker Yellow for legibility */
+  --warning-light: rgba(234, 179, 8, 0.15);
 }
 
 :root.dark {
-  --bg-color: #000000;
-  --card-bg: #0a0a0a;
-  --card-subtle: #141414;
+  /* CMYK Dark (Rich Black & Neon Ink) */
+  --bg-color: #0a0a0a;
+  --card-bg: #141414;
+  --card-subtle: #1c1c1c;
   --border-color: #262626;
-  --border-subtle: #181818;
+  --border-subtle: #1f1f1f;
   --card-border: #262626;
-  --text-color: #f4f4f5;
+  --text-color: #f8f9fb;
   --text-muted: #a1a1aa;
-  --accent-color: #38bdf8;
-  --accent-light: rgba(56, 189, 248, 0.12);
-  --danger-color: #ef4444;
-  --danger-light: rgba(239, 68, 68, 0.18);
-  --warning-color: #f59e0b;
-  --warning-light: rgba(245, 158, 11, 0.18);
+  
+  --accent-color: #00AEEF; /* Cyan */
+  --accent-light: rgba(0, 174, 239, 0.15);
+  --danger-color: #EC008C; /* Magenta */
+  --danger-light: rgba(236, 0, 140, 0.15);
+  --warning-color: #FFF200; /* Pure Yellow */
+  --warning-light: rgba(255, 242, 0, 0.15);
 }
 
 body {

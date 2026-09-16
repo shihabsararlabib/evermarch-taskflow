@@ -10,45 +10,69 @@ export interface UserAccount extends Assignee {
 
 const DEFAULT_ACCOUNTS: UserAccount[] = [
   {
-    id: 'user-admin',
-    name: 'Admin / Workshop Supervisor',
-    username: 'admin',
-    password: 'admin123',
-    role: 'admin',
-    specialization: 'All Operations & Approval',
+    "id": "user-admin",
+    "name": "Admin / Workshop Supervisor",
+    "username": "admin",
+    "role": "admin",
+    "specialization": "All Operations & Approval",
+    "password": "admin123"
   },
   {
-    id: 'user-1',
-    name: 'Tarek Rahman',
-    username: 'tarek',
-    password: 'tech123',
-    role: 'technician',
-    specialization: 'Laser Printers & Fuser Units',
+    "id": "user-1",
+    "name": "Rasel Pran",
+    "username": "rasel",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
   },
   {
-    id: 'user-2',
-    name: 'Hasan Mahmud',
-    username: 'hasan',
-    password: 'tech123',
-    role: 'technician',
-    specialization: 'Logic Board & SMPS Power Circuits',
+    "id": "user-2",
+    "name": "Symon Rasel",
+    "username": "symon",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
   },
   {
-    id: 'user-3',
-    name: 'Salman Farsi',
-    username: 'salman',
-    password: 'tech123',
-    role: 'technician',
-    specialization: 'Ink Tank & Color MFP Mechanics',
+    "id": "user-3",
+    "name": "Junaid",
+    "username": "junaid",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
   },
   {
-    id: 'user-4',
-    name: 'Fahim Chowdhury',
-    username: 'fahim',
-    password: 'tech123',
-    role: 'technician',
-    specialization: 'Network, Scanner & Firmware',
+    "id": "user-4",
+    "name": "Rashed",
+    "username": "rashed",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
   },
+  {
+    "id": "user-5",
+    "name": "Mukti",
+    "username": "mukti",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
+  },
+  {
+    "id": "user-6",
+    "name": "Didar",
+    "username": "didar",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
+  },
+  {
+    "id": "user-7",
+    "name": "Rubel",
+    "username": "rubel",
+    "role": "technician",
+    "specialization": "General Technician",
+    "password": "tech123"
+  }
 ];
 
 interface AuthState {
