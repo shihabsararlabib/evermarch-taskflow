@@ -86,8 +86,8 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   if (!isOpen || !isAdmin()) return null;
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <>
+      <div key="admin-modal-overlay" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -581,6 +581,6 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </>
   );
 }

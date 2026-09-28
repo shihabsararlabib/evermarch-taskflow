@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { safeLocalStorage } from '@/lib/safeStorage';
 import { Assignee } from '@/types';
 import { AUTH_STORAGE_KEY } from '@/lib/constants';
 import { generateId } from '@/lib/utils';
@@ -182,6 +183,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: AUTH_STORAGE_KEY,
+      storage: createJSONStorage(() => safeLocalStorage),
     }
   )
 );

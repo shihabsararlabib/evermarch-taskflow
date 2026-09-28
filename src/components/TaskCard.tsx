@@ -14,9 +14,16 @@ interface TaskCardProps {
   onClick: () => void;
   onDelete: () => void;
   isDragging?: boolean;
+  onRequestDispatchConfirmation?: (task: Task) => void;
 }
 
-export default function TaskCard({ task, onClick, onDelete, isDragging }: TaskCardProps) {
+export default function TaskCard({
+  task,
+  onClick,
+  onDelete,
+  isDragging,
+  onRequestDispatchConfirmation,
+}: TaskCardProps) {
   const { isAdmin } = useAuthStore();
   const columns = useBoardStore((state) => state.board.columns);
   const moveTask = useBoardStore((state) => state.moveTask);
@@ -54,6 +61,12 @@ export default function TaskCard({ task, onClick, onDelete, isDragging }: TaskCa
   const handleAdvanceStage = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!nextColumn) return;
+    if (task.columnId === 'work' && nextColumn.id === 'ready') {
+      if (onRequestDispatchConfirmation) {
+        onRequestDispatchConfirmation(task);
+        return;
+      }
+    }
     moveTask(task.id, nextColumn.id, 0);
   };
 

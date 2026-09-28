@@ -2,10 +2,8 @@ import { Column, Label, Assignee, Company } from '@/types';
 
 export const DEFAULT_COLUMNS: Column[] = [
   { id: 'intake', title: '01 Intake & Log', order: 0, color: '#026aa7' },
-  { id: 'queue', title: '02 Diagnostic Queue', order: 1, color: '#b45309' },
-  { id: 'repair', title: '03 Overhaul & Bench', order: 2, color: '#0284c7' },
-  { id: 'qc', title: '04 Quality Control', order: 3, color: '#4338ca' },
-  { id: 'ready', title: '05 Dispatch Ready', order: 4, color: '#15803d' },
+  { id: 'work', title: '02 In Work', order: 1, color: '#0284c7' },
+  { id: 'ready', title: '03 Dispatch Ready', order: 2, color: '#15803d' },
 ];
 
 export const PRESET_LABELS: Label[] = [

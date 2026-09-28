@@ -144,11 +144,19 @@ export function useKanbanBoard() {
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'evermarch-printer-kanban-data' && e.newValue) {
-        useBoardStore.persist.rehydrate();
+        try {
+          useBoardStore.persist.rehydrate();
+        } catch {
+          // Ignore rehydrate failure if storage access is restricted
+        }
       }
     };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    try {
+      window.addEventListener('storage', handleStorageChange);
+      return () => window.removeEventListener('storage', handleStorageChange);
+    } catch {
+      // Ignore if window event listener access is restricted
+    }
   }, []);
 
   return {

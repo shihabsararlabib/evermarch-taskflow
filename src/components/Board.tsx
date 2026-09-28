@@ -28,6 +28,7 @@ import SearchFilter from './SearchFilter';
 import DatabaseView from './DatabaseView';
 import LoginModal from './LoginModal';
 import AdminPanelModal from './AdminPanelModal';
+import DispatchConfirmModal from './DispatchConfirmModal';
 import { useAuthStore } from '@/store/authStore';
 
 export default function Board() {
@@ -62,6 +63,11 @@ export default function Board() {
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [dispatchConfirmTask, setDispatchConfirmTask] = useState<{
+    task: Task;
+    targetColumnId: string;
+    targetIndex: number;
+  } | null>(null);
   const [filter, setFilter] = useState<FilterState>({
     search: '',
     priority: 'all',
@@ -113,6 +119,11 @@ export default function Board() {
 
       if (!overColumnId) return;
 
+      // Do not eager-move during drag-over if transitioning from 'work' to 'ready'
+      if (activeTask.columnId === 'work' && overColumnId === 'ready') {
+        return;
+      }
+
       if (activeTask.columnId !== overColumnId) {
         moveTask(activeTask.id, overColumnId, 0);
       }
@@ -131,26 +142,67 @@ export default function Board() {
       if (!activeTask) return;
 
       const overType = over.data?.current?.type;
+      let targetColumnId: string | undefined;
+      let targetIndex = 0;
 
       if (overType === 'column') {
-        const targetColumnId = over.id as string;
+        targetColumnId = over.id as string;
+        targetIndex = 0;
+      } else if (overType === 'task') {
+        const overTask = over.data?.current?.task as Task | undefined;
+        if (!overTask) return;
+        targetColumnId = overTask.columnId;
+        targetIndex = overTask.order;
+      }
+
+      if (!targetColumnId) return;
+
+      // Ask for confirmation when moving from 'work' to 'ready'
+      if (activeTask.columnId === 'work' && targetColumnId === 'ready') {
+        setDispatchConfirmTask({
+          task: activeTask,
+          targetColumnId: 'ready',
+          targetIndex,
+        });
+        return;
+      }
+
+      if (overType === 'column') {
         if (activeTask.columnId !== targetColumnId) {
           moveTask(activeTask.id, targetColumnId, 0);
         }
       } else if (overType === 'task') {
         const overTask = over.data?.current?.task as Task | undefined;
-        if (!overTask) return;
-
-        const targetColumnId = overTask.columnId;
-        const targetIndex = overTask.order;
-
-        if (activeTask.id !== overTask.id) {
+        if (overTask && activeTask.id !== overTask.id) {
           moveTask(activeTask.id, targetColumnId, targetIndex);
         }
       }
     },
     [moveTask]
   );
+
+  const handleConfirmDispatch = useCallback(() => {
+    if (dispatchConfirmTask) {
+      moveTask(
+        dispatchConfirmTask.task.id,
+        dispatchConfirmTask.targetColumnId,
+        dispatchConfirmTask.targetIndex
+      );
+      setDispatchConfirmTask(null);
+    }
+  }, [dispatchConfirmTask, moveTask]);
+
+  const handleCancelDispatch = useCallback(() => {
+    setDispatchConfirmTask(null);
+  }, []);
+
+  const handleRequestDispatchConfirmation = useCallback((task: Task) => {
+    setDispatchConfirmTask({
+      task,
+      targetColumnId: 'ready',
+      targetIndex: 0,
+    });
+  }, []);
 
   const handleTaskClick = useCallback((task: Task) => {
     setSelectedTask(task);
@@ -244,9 +296,9 @@ export default function Board() {
 
       {/* Main Content Area: Kanban Board vs Database Registry */}
       {viewMode === 'board' ? (
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           {/* Search and Filters */}
-          <div className="px-4 md:px-6 py-3 max-w-[1900px] mx-auto w-full">
+          <div className="px-4 md:px-6 py-3 max-w-[1900px] mx-auto w-full shrink-0">
             <SearchFilter
               filter={filter}
               onFilterChange={setFilter}
@@ -263,7 +315,7 @@ export default function Board() {
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
           >
-            <div className="flex-1 overflow-x-auto overflow-y-hidden px-4 md:px-6 pb-4">
+            <div className="flex-1 overflow-x-auto overflow-y-auto px-4 md:px-6 pb-4 min-h-0">
               <motion.div
                 className="flex gap-4 h-full min-w-min pb-2"
                 initial={{ opacity: 0, y: 15 }}
@@ -282,6 +334,7 @@ export default function Board() {
                       onDeleteTask={deleteTask}
                       onAddTask={handleAddTask}
                       onDeleteColumn={deleteColumn}
+                      onRequestDispatchConfirmation={handleRequestDispatchConfirmation}
                     />
                   ))}
 
@@ -364,7 +417,7 @@ export default function Board() {
         </div>
       ) : (
         /* Database Registry View */
-        <div className="flex-1 px-4 md:px-6 py-4 max-w-[1900px] mx-auto w-full">
+        <div className="flex-1 overflow-y-auto min-h-0 px-4 md:px-6 py-4 max-w-[1900px] mx-auto w-full">
           <DatabaseView
             tasks={board.tasks}
             columns={board.columns}
@@ -395,6 +448,14 @@ export default function Board() {
       {isAdmin() && (
         <AdminPanelModal isOpen={isAdminPanelOpen} onClose={() => setIsAdminPanelOpen(false)} />
       )}
+
+      {/* Confirmation Modal: In Work ➔ Dispatch Ready */}
+      <DispatchConfirmModal
+        isOpen={Boolean(dispatchConfirmTask)}
+        task={dispatchConfirmTask?.task || null}
+        onConfirm={handleConfirmDispatch}
+        onCancel={handleCancelDispatch}
+      />
       </div>
     </div>
   );

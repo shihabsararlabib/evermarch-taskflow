@@ -7,6 +7,7 @@ import { PRIORITY_CONFIG, PRESET_LABELS, PRESET_ASSIGNEES, REPAIR_LIMIT_THRESHOL
 import { getInitials, getAvatarColor, cn, formatDate } from '@/lib/utils';
 import { useBoardStore } from '@/store/boardStore';
 import { useAuthStore } from '@/store/authStore';
+import DispatchConfirmModal from './DispatchConfirmModal';
 
 interface TaskModalProps {
   task: Task | null;
@@ -57,6 +58,7 @@ export default function TaskModal({
 
   // UI state
   const [showAdvanced, setShowAdvanced] = useState(!isNewTask);
+  const [showDispatchConfirm, setShowDispatchConfirm] = useState(false);
   const [isAddingCustomCompany, setIsAddingCustomCompany] = useState(false);
   const [customCompanyName, setCustomCompanyName] = useState('');
   const [isAddingCustomBranch, setIsAddingCustomBranch] = useState(false);
@@ -298,8 +300,8 @@ export default function TaskModal({
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto bg-black/85 backdrop-blur-xs">
+    <>
+      <div key="task-modal-backdrop" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto bg-black/85 backdrop-blur-xs">
         <motion.div
           initial={{ opacity: 0, scale: 0.97, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -366,16 +368,24 @@ export default function TaskModal({
               </span>
             </div>
 
-            <div className="grid grid-cols-5 gap-1.5">
+            <div className={`grid gap-1.5 ${columns.length <= 3 ? 'grid-cols-3' : 'grid-cols-5'}`}>
               {columns.map((col, idx) => {
                 const isCurrent = columnId === col.id;
                 const isPast = columns.findIndex((c) => c.id === columnId) > idx;
+
+                const handleStageSelect = () => {
+                  if (task?.columnId === 'work' && col.id === 'ready') {
+                    setShowDispatchConfirm(true);
+                  } else {
+                    setColumnId(col.id);
+                  }
+                };
 
                 return (
                   <button
                     key={col.id}
                     type="button"
-                    onClick={() => setColumnId(col.id)}
+                    onClick={handleStageSelect}
                     className={cn(
                       'py-1.5 px-2 rounded-full text-center transition-all cursor-pointer text-xs font-medium',
                       isCurrent
@@ -711,6 +721,7 @@ export default function TaskModal({
               <AnimatePresence>
                 {showAdvanced && (
                   <motion.div
+                    key="advanced-options-panel"
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
@@ -932,6 +943,32 @@ export default function TaskModal({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+
+      {/* Dispatch Confirmation Dialog */}
+      <DispatchConfirmModal
+        key="task-dispatch-modal"
+        isOpen={showDispatchConfirm}
+        task={
+          task
+            ? {
+                ...task,
+                serialNumber: serialNumber || task.serialNumber,
+                printerModel: printerModel || task.printerModel,
+                companyName: companyName || task.companyName,
+                branchName: branchName || task.branchName,
+                reportedFault: reportedFault || task.reportedFault,
+                assignee,
+              }
+            : null
+        }
+        onConfirm={() => {
+          setColumnId('ready');
+          setShowDispatchConfirm(false);
+        }}
+        onCancel={() => {
+          setShowDispatchConfirm(false);
+        }}
+      />
+    </>
   );
 }

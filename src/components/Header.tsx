@@ -33,20 +33,8 @@ export default function Header({
 }: HeaderProps) {
   const { isAdmin } = useAuthStore();
 
-  const [showAddColumn, setShowAddColumn] = useState(false);
-  const [columnTitle, setColumnTitle] = useState('');
-  const [columnColor, setColumnColor] = useState('#2563eb');
-
-  const handleAddColumn = () => {
-    if (columnTitle.trim()) {
-      onAddColumn(columnTitle.trim(), columnColor);
-      setColumnTitle('');
-      setShowAddColumn(false);
-    }
-  };
-
   return (
-    <header className="sticky top-0 z-40 bg-[var(--card-bg)] border-b border-[var(--border-color)] transition-colors">
+    <header className="sticky top-0 z-40 shrink-0 bg-[var(--card-bg)] border-b border-[var(--border-color)] transition-colors">
       <div className="max-w-[1900px] mx-auto px-4 lg:px-6 py-2.5">
         <div className="flex items-center justify-between gap-4">
           

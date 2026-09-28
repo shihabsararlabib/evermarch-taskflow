@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { safeLocalStorage } from '@/lib/safeStorage';
 import { Board, Task, Column, Company } from '@/types';
 import { generateId } from '@/lib/utils';
 import { DEFAULT_COLUMNS, STORAGE_KEY, PRESET_ASSIGNEES, PRESET_COMPANIES, PRESET_LABELS } from '@/lib/constants';
@@ -52,7 +53,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-05",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 0,
     "createdAt": "2026-08-02T00:00:00.000Z",
     "updatedAt": "2026-08-02T00:00:00.000Z",
@@ -139,7 +140,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-05",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 3,
     "createdAt": "2026-08-02T00:00:00.000Z",
     "updatedAt": "2026-08-02T00:00:00.000Z",
@@ -197,7 +198,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-05",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 5,
     "createdAt": "2026-08-02T00:00:00.000Z",
     "updatedAt": "2026-08-02T00:00:00.000Z",
@@ -226,7 +227,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-05",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 6,
     "createdAt": "2026-08-02T00:00:00.000Z",
     "updatedAt": "2026-08-02T00:00:00.000Z",
@@ -313,7 +314,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-06",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 9,
     "createdAt": "2026-08-03T00:00:00.000Z",
     "updatedAt": "2026-08-03T00:00:00.000Z",
@@ -342,7 +343,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-06",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 10,
     "createdAt": "2026-08-03T00:00:00.000Z",
     "updatedAt": "2026-08-03T00:00:00.000Z",
@@ -400,7 +401,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-07",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 12,
     "createdAt": "2026-08-04T00:00:00.000Z",
     "updatedAt": "2026-08-04T00:00:00.000Z",
@@ -487,7 +488,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-07",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 15,
     "createdAt": "2026-08-04T00:00:00.000Z",
     "updatedAt": "2026-08-04T00:00:00.000Z",
@@ -574,7 +575,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-07",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 18,
     "createdAt": "2026-08-04T00:00:00.000Z",
     "updatedAt": "2026-08-04T00:00:00.000Z",
@@ -632,7 +633,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-08",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 20,
     "createdAt": "2026-08-05T00:00:00.000Z",
     "updatedAt": "2026-08-05T00:00:00.000Z",
@@ -661,7 +662,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-08",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 21,
     "createdAt": "2026-08-05T00:00:00.000Z",
     "updatedAt": "2026-08-05T00:00:00.000Z",
@@ -748,7 +749,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-09",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 24,
     "createdAt": "2026-08-06T00:00:00.000Z",
     "updatedAt": "2026-08-06T00:00:00.000Z",
@@ -777,7 +778,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-09",
     "priority": "medium",
-    "columnId": "repair",
+    "columnId": "work",
     "order": 25,
     "createdAt": "2026-08-06T00:00:00.000Z",
     "updatedAt": "2026-08-06T00:00:00.000Z",
@@ -835,7 +836,7 @@ const sampleInitialTasks: Task[] = [
     "labels": [],
     "dueDate": "2026-08-09",
     "priority": "medium",
-    "columnId": "qc",
+    "columnId": "work",
     "order": 27,
     "createdAt": "2026-08-06T00:00:00.000Z",
     "updatedAt": "2026-08-06T00:00:00.000Z",
@@ -1143,6 +1144,7 @@ export const useBoardStore = create<BoardState>()(
     }),
     {
       name: STORAGE_KEY,
+      storage: createJSONStorage(() => safeLocalStorage),
       partialize: (state) => ({ board: state.board }),
       onRehydrateStorage: () => (state) => {
         if (state) {
@@ -1151,6 +1153,51 @@ export const useBoardStore = create<BoardState>()(
             console.warn('Persisted board data reset to initial due to schema update.', result.error);
             state.board = initialBoard;
           } else {
+            // Migrate old columns: queue, repair, qc -> 02 In Work
+            const hasOldColumns = state.board.columns.some((c) =>
+              ['queue', 'repair', 'qc'].includes(c.id)
+            );
+            if (hasOldColumns) {
+              const newColumns: Column[] = [];
+              let addedWork = false;
+              for (const col of state.board.columns) {
+                if (['queue', 'repair', 'qc'].includes(col.id)) {
+                  if (!addedWork) {
+                    newColumns.push({
+                      id: 'work',
+                      title: '02 In Work',
+                      order: newColumns.length,
+                      color: '#0284c7',
+                    });
+                    addedWork = true;
+                  }
+                } else if (col.id === 'ready') {
+                  newColumns.push({
+                    ...col,
+                    title: col.title.startsWith('05') ? '03 Dispatch Ready' : col.title,
+                    order: newColumns.length,
+                  });
+                } else {
+                  newColumns.push({
+                    ...col,
+                    order: newColumns.length,
+                  });
+                }
+              }
+
+              const updatedTasks = state.board.tasks.map((t) => {
+                if (['queue', 'repair', 'qc'].includes(t.columnId)) {
+                  return { ...t, columnId: 'work' };
+                }
+                return t;
+              });
+
+              state.board = {
+                ...state.board,
+                columns: newColumns,
+                tasks: updatedTasks,
+              };
+            }
             state.history = [state.board];
             state.historyIndex = 0;
           }

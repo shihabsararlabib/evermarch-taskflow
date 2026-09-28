@@ -12,13 +12,15 @@ A modern, responsive Kanban Board built with **Next.js 16**, **TypeScript**, and
 - **Node.js** 18+ (LTS recommended)
 - **npm** 9+ or **yarn** / **pnpm**
 
-### Installation
+### Quick Start (Windows Executable)
+
+Simply double-click either file in the project folder:
+- **`Start-App.bat`** (or **`run.bat`**): Automatically checks Node.js, installs dependencies if needed, boots the server, and opens [http://localhost:3000](http://localhost:3000) in your default browser.
+- **`Create-Desktop-Shortcut.bat`**: Adds a 1-click **Evermarch TaskFlow** shortcut directly to your Windows Desktop with the app icon.
+
+### Manual Command-Line Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/kanban-board.git
-cd kanban-board
-
 # Install dependencies
 npm install
 

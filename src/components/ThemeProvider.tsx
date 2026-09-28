@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { THEME_STORAGE_KEY } from '@/lib/constants';
+import { safeLocalStorage } from '@/lib/safeStorage';
 
 type Theme = 'dark' | 'light';
 
@@ -24,20 +25,28 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'light');
+    try {
+      const stored = safeLocalStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+      if (stored === 'dark' || stored === 'light') {
+        setTheme(stored);
+      } else if (typeof window !== 'undefined' && window.matchMedia) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark ? 'dark' : 'light');
+      }
+    } catch {
+      setTheme('dark');
     }
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    try {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      safeLocalStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      // Safely ignore storage set errors in restricted browser profiles
+    }
   }, [theme, mounted]);
 
   const toggleTheme = useCallback(() => {

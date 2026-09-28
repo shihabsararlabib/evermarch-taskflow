@@ -184,6 +184,7 @@ export default function SearchFilter({ filter, onFilterChange, taskCount, onNewT
       <AnimatePresence>
         {isExpanded && (
           <motion.div
+            key="search-filter-expanded-panel"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

@@ -16,6 +16,7 @@ interface ColumnProps {
   onDeleteTask: (taskId: string) => void;
   onAddTask: (columnId: string) => void;
   onDeleteColumn: (columnId: string) => void;
+  onRequestDispatchConfirmation?: (task: Task) => void;
 }
 
 export default function KanbanColumn({
@@ -26,6 +27,7 @@ export default function KanbanColumn({
   onDeleteTask,
   onAddTask,
   onDeleteColumn,
+  onRequestDispatchConfirmation,
 }: ColumnProps) {
   const { isAdmin } = useAuthStore();
   const { setNodeRef, isOver } = useDroppable({
@@ -63,6 +65,7 @@ export default function KanbanColumn({
         <div className="flex items-center gap-1">
           {isAdmin() &&
             column.id !== 'intake' &&
+            column.id !== 'work' &&
             column.id !== 'queue' &&
             column.id !== 'repair' &&
             column.id !== 'qc' &&
@@ -83,7 +86,7 @@ export default function KanbanColumn({
       {/* Droppable Area */}
       <div
         ref={setNodeRef}
-        className={`flex-1 overflow-y-auto overflow-x-hidden p-0.5 space-y-2 min-h-[140px] rounded transition-all duration-120 ${
+        className={`flex-1 overflow-y-auto overflow-x-hidden min-h-0 p-0.5 space-y-2 rounded transition-all duration-120 ${
           isOver
             ? 'bg-blue-50/40 dark:bg-sky-950/25 ring-1 ring-[var(--accent-color)]'
             : ''
@@ -97,6 +100,7 @@ export default function KanbanColumn({
                 task={task}
                 onClick={() => onTaskClick(task)}
                 onDelete={() => onDeleteTask(task.id)}
+                onRequestDispatchConfirmation={onRequestDispatchConfirmation}
               />
             ))}
           </AnimatePresence>
